@@ -19,13 +19,13 @@ document.body.appendChild(title);
 // console.log(newBoard.numberOfShips);
 
 
-const player = new Player("dude");
+// const player = new Player("dude");
 
-console.log(player.playTurn());
-console.log(player.playTurn());
-console.log(player.playTurn());
-console.log(player.playTurn());
-console.log(player.playTurn());
-console.log(player.playTurn());
+// console.log(player.playTurn());
+// console.log(player.playTurn());
+// console.log(player.playTurn());
+// console.log(player.playTurn());
+// console.log(player.playTurn());
+// console.log(player.playTurn());
 
 
