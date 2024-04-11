@@ -1,3 +1,4 @@
+/* eslint-disable class-methods-use-this */
 /* eslint-disable prefer-destructuring */
 /* eslint-disable no-sequences */
 /* eslint-disable no-plusplus */
@@ -171,8 +172,59 @@ class Gameboard {
 
 class Player {
 
-    constructor(cpu = false) {
-        this.cpu = cpu
+    constructor(name) {
+        this.name = name;
+        this.attemptedMap = this.buildAttemptedMap();
+    }
+
+    takeShot() {
+        // filter through attempted map to find null coordinates
+        const availableMoves = this.filter(this.attemptedMap);
+        const randomCoordinates = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+
+        this.attemptedMap[randomCoordinates[0]][randomCoordinates[1]] = "x";
+
+        console.log(availableMoves);
+
+        return randomCoordinates
+    }
+
+    buildAttemptedMap() {
+        const rows = 10;
+        const columns = 10;
+        const newMap = [];
+
+        for (let i = 0; i < rows; i++) {
+            newMap[i] = [];
+            for (let j = 0; j < columns; j++) {
+                newMap[i].push(null);
+            }
+        }
+
+        return newMap;
+    }
+
+    filter(array) {
+        // Create result array to hold all the 'null' coordinates in our attemptedMap
+        // Remember, attemptedMap is separate from any gameboard. This is just how
+        // the player tracks their shots
+        const result = [];
+
+        for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j < array.length; j++) {
+                // Creating an array of all the open (null) coordinates in our attemptedMap
+                // As the player calls takeShot method (takes shots), this result array will get smaller,
+                // meaning the number of available moves decreases. (SEE IN takeShot METHOD)
+                // Note, this not very efficient in time-complexity (Big-O of n^2 I think bc of loop within loop), since this is being called every turn
+                // and iterates over the entire attemptedMap every... single... time.
+                if (array[i][j] === null) {
+                    result.push([i, j])
+                }
+                
+            }
+        }
+
+        return result;
     }
 
 }
