@@ -177,14 +177,12 @@ class Player {
         this.attemptedMap = this.buildAttemptedMap();
     }
 
-    takeShot() {
+    takeShotCPU() {
         // filter through attempted map to find null coordinates
         const availableMoves = this.filter(this.attemptedMap);
         const randomCoordinates = availableMoves[Math.floor(Math.random() * availableMoves.length)];
 
         this.attemptedMap[randomCoordinates[0]][randomCoordinates[1]] = "x";
-
-        console.log(availableMoves);
 
         return randomCoordinates
     }
@@ -213,8 +211,8 @@ class Player {
         for (let i = 0; i < array.length; i++) {
             for (let j = 0; j < array.length; j++) {
                 // Creating an array of all the open (null) coordinates in our attemptedMap
-                // As the player calls takeShot method (takes shots), this result array will get smaller,
-                // meaning the number of available moves decreases. (SEE IN takeShot METHOD)
+                // As the player calls takeShotCPU method (takes shots), this result array will get smaller,
+                // meaning the number of available moves decreases. (SEE IN takeShotCPU METHOD)
                 // Note, this not very efficient in time-complexity (Big-O of n^2 I think bc of loop within loop), since this is being called every turn
                 // and iterates over the entire attemptedMap every... single... time.
                 if (array[i][j] === null) {
