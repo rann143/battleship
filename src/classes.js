@@ -187,6 +187,13 @@ class Player {
         return randomCoordinates
     }
 
+    takeShotHuman(x, y) {
+
+        const coordinates = [x,y]
+
+        return coordinates;
+    }
+
     buildAttemptedMap() {
         const rows = 10;
         const columns = 10;
