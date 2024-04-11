@@ -6,7 +6,7 @@ function GameController(
     gameBoard1 = new Gameboard(),
     gameBoard2 = new Gameboard(),
 ) {
-
+    // Active player
     let activePlayer = player1;
 
     function switchPlayer() {
@@ -15,16 +15,25 @@ function GameController(
 
     const getActivePlayer = () => activePlayer;
 
+    // Current board under attack by the active player
     let boardUnderAttack = gameBoard2;
 
-    function switchActiveEnemyBoard() {
+    function switchBoardUnderAttack() {
         boardUnderAttack = boardUnderAttack === gameBoard2 ? gameBoard1 : gameBoard2;
     }
 
     const getBoardUnderAttack = () => boardUnderAttack;
 
+    // functionality for playing a round
     function playRound() {
-        
+
+    }
+
+    return {
+        switchPlayer,
+        getActivePlayer,
+        switchBoardUnderAttack,
+        getBoardUnderAttack
     }
 
 }
