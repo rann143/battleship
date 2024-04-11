@@ -6,14 +6,16 @@ title.classList.add("blur-back");
 
 document.body.appendChild(title);
 
-const newBoard = new Gameboard();
+// const newBoard = new Gameboard();
+
+// newBoard.placeShip([5, 4], 4);
+
+// console.log(newBoard.receiveAttack(5, 6));
+// console.log(newBoard.receiveAttack(5, 6));
+// console.log(newBoard.receiveAttack(5, 4));
+// console.log(newBoard.receiveAttack(6, 4));
+// console.log(newBoard.receiveAttack(5, 5));
+// console.log(newBoard.receiveAttack(5, 7));
+// console.log(newBoard.numberOfShips);
 
 
-console.log(newBoard.placeShip([0, 2], 5, false));
-
-console.log(newBoard.placeShip([3, 0], 4));
-
-console.log(newBoard.placeShip([11, 8], 4));
-
-
-console.log(newBoard.board);

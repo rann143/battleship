@@ -14,7 +14,8 @@ class Ship {
 
     hit() {
         this.hits++;
-        return this.hits;
+        this.isSunk();
+        return this.hits && this.sunk;
     }
 
     isSunk() {
@@ -30,8 +31,9 @@ class Ship {
 
 class Gameboard {
 
-    constructor(missedAttacks = [], numberOfShips = 10) {
+    constructor(missedAttacks = [], attempted = [], numberOfShips = 10) {
         this.missedAttacks = missedAttacks,
+        this.attempted = attempted;
         this.numberOfShips = numberOfShips
         this.board = this.buildBoard();
     }
@@ -65,7 +67,7 @@ class Gameboard {
             
             // Reset yCoor to initial value
             yCoor = coordinate[1];
-            // If all cells are empty, fill cells with reference to the ship
+            // If all cells are on the board && empty, fill cells with reference to the ship
             for (let i = 0; i < length; i++) {
                 this.board[coordinate[0]][yCoor] = ship;
                 yCoor++;
@@ -95,7 +97,7 @@ class Gameboard {
 
             // Reset xCoor to initial value
             xCoor = coordinate[0];
-            // If all cells are empty, fill cells with reference to the ship
+            // If all cells are on the board && empty, fill cells with reference to the ship
             for (let i = 0; i < length; i++) {
                 this.board[xCoor][coordinate[1]] = ship;
                 xCoor++;
@@ -106,15 +108,28 @@ class Gameboard {
 
     }
 
-    receiveAttack(x,y) {
-
-        if (this.board[x][y] !== null) {
-            this.missedAttacks.push([x, y]);
-            return true;
+    receiveAttack(x, y) {
+        
+        if (this.attempted.includes(`[${x}, ${y}]`) === true) {
+            return "Already Tried This Coordinate";
         }
 
-        return false;
+        this.attempted.push(`[${x}, ${y}]`);
 
+        if (this.isEmpty([x,y]) === true) {
+            this.missedAttacks.push(`[${x}, ${y}]`);
+            return this.missedAttacks;
+        } 
+        
+        const attackedShip = this.board[x][y];
+        attackedShip.hit();
+
+        if (attackedShip.sunk === true) {
+            this.numberOfShips--;
+            return attackedShip;
+        }
+        
+        return attackedShip;
     }
 
     isEmpty(coordinate) {
@@ -154,10 +169,6 @@ class Player {
 
     constructor(cpu = false) {
         this.cpu = cpu
-    }
-
-    isCPU() {
-
     }
 
 }
