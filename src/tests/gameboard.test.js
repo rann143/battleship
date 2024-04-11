@@ -5,7 +5,7 @@ import { Gameboard, Ship } from "../classes"
 
 test("adds missed attack to missedattacks", () => {
     const gameboard = new Gameboard();
-    const expected = ['[5, 6]']
+    const expected = [[5, 6]]
     expect(
         gameboard.receiveAttack(5, 6)
     ).toEqual(expect.arrayContaining(expected));
@@ -15,7 +15,7 @@ test("adds multiple missed attack to missedattacks", () => {
     const gameboard = new Gameboard();
     gameboard.receiveAttack(5, 6);
     gameboard.receiveAttack(1, 3);
-    const expected = ['[5, 6]', '[1, 3]', '[4, 5]']
+    const expected = [[5, 6], [1, 3], [4, 5]]
     expect(
         gameboard.receiveAttack(4, 5)
     ).toEqual(expect.arrayContaining(expected));

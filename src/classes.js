@@ -117,7 +117,7 @@ class Gameboard {
         this.attempted.push(`[${x}, ${y}]`);
 
         if (this.isEmpty([x,y]) === true) {
-            this.missedAttacks.push(`[${x}, ${y}]`);
+            this.missedAttacks.push([x, y]);
             return this.missedAttacks;
         } 
         
