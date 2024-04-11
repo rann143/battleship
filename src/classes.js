@@ -126,7 +126,7 @@ class Gameboard {
 
         if (attackedShip.sunk === true) {
             this.numberOfShips--;
-            return attackedShip;
+            return this.areAllShipsSunk();
         }
         
         return attackedShip;
@@ -145,6 +145,10 @@ class Gameboard {
             return false;
         }
         return true;
+    }
+
+    areAllShipsSunk() {
+       return this.numberOfShips <= 0
     }
 
     // eslint-disable-next-line class-methods-use-this

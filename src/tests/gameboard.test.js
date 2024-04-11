@@ -49,3 +49,12 @@ test("returns attacked ship with updated hits/sunk (multiple hits)", () => {
         gameboard.receiveAttack(1, 1)
     ).toEqual(expected);
 })
+
+test("if ship is sunk, checks if all ships are sunk", () => {
+    const gameboard = new Gameboard();
+    gameboard.placeShip([1, 1], 1);
+    gameboard.numberOfShips = 1;
+    expect(
+        gameboard.receiveAttack(1, 1)
+    ).toBeTruthy();
+})
