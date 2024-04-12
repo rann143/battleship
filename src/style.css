@@ -12,6 +12,12 @@ body {
   justify-content: center;
 }
 
+.player-titles {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
 .game-container {
   border: solid black 1px;
   padding: 10px;
