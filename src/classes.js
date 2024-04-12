@@ -32,15 +32,16 @@ class Ship {
 
 class Gameboard {
 
-    constructor(missedAttacks = [], attempted = [], numberOfShips = 2) {
+    constructor(name, missedAttacks = [], attemptedByOpponent = [], numberOfShips = 2, ships = []) {
+        this.name = name,
         this.missedAttacks = missedAttacks,
-        this.attempted = attempted;
-        this.numberOfShips = numberOfShips
+        this.attemptedByOpponent = attemptedByOpponent;
+        this.numberOfShips = numberOfShips,
+        this.ships = ships,
         this.board = this.buildBoard();
     }
 
     placeShip(coordinate, length, horizontal = true) { 
-        const ship = new Ship(length);
 
         // What to protect against:
         // cells not on the board
@@ -68,6 +69,9 @@ class Gameboard {
             
             // Reset yCoor to initial value
             yCoor = coordinate[1];
+            // Create new ship
+            const ship = new Ship(length);
+            this.ships.push(ship);
             // If all cells are on the board && empty, fill cells with reference to the ship
             for (let i = 0; i < length; i++) {
                 this.board[coordinate[0]][yCoor] = ship;
@@ -98,6 +102,9 @@ class Gameboard {
 
             // Reset xCoor to initial value
             xCoor = coordinate[0];
+            // Create new ship
+            const ship = new Ship(length);
+            this.ships.push(ship);
             // If all cells are on the board && empty, fill cells with reference to the ship
             for (let i = 0; i < length; i++) {
                 this.board[xCoor][coordinate[1]] = ship;
@@ -111,15 +118,15 @@ class Gameboard {
 
     receiveAttack(x, y) {
         
-        if (this.attempted.includes(`[${x}, ${y}]`) === true) {
+        if (this.attemptedByOpponent.includes(`[${x}, ${y}]`) === true) {
             return "Already Tried This Coordinate";
         }
 
-        this.attempted.push(`[${x}, ${y}]`);
+        this.attemptedByOpponent.push(`[${x}, ${y}]`);
 
         if (this.isEmpty([x,y]) === true) {
             this.missedAttacks.push([x, y]);
-            return this.missedAttacks;
+            return "missed";
         } 
         
         const attackedShip = this.board[x][y];
@@ -127,7 +134,7 @@ class Gameboard {
 
         if (attackedShip.sunk === true) {
             this.numberOfShips--;
-            return this.numberOfShips;
+            return "sunk";
         }
         
         return attackedShip;
@@ -166,6 +173,22 @@ class Gameboard {
         }
 
         return newBoard;
+    }
+
+    resetBoard() {
+        while (this.missedAttacks.length > 0) {
+            this.missedAttacks.pop();
+        }
+        while (this.attemptedByOpponent.length > 0) {
+            this.attemptedByOpponent.pop();
+        }
+        this.numberOfShips = 2;
+        while (this.ships.length > 0) {
+            this.ships.pop();
+        }
+        this.board = this.buildBoard();
+
+        return this;
     }
 
 }
@@ -230,6 +253,10 @@ class Player {
         }
 
         return result;
+    }
+
+    resetPlayer() {
+        this.attemptedMap = this.buildAttemptedMap();
     }
 
 }
