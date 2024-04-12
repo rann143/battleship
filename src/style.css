@@ -24,7 +24,8 @@ body {
 
 .cell-button {
   box-sizing: border-box;
-  border: solid black 1px;
+  /* border: solid black 1px; */
+  outline: solid black 1px;
   background: rgb(206, 239, 255);
   width: 100%;
   height: 100%;
@@ -68,5 +69,9 @@ button {
 }
 
 .ship {
-  background-color: rgba(0, 0, 0, 0.571);
+  background-color: rgb(180, 180, 180);
+}
+
+.ship:hover {
+  background-color: rgb(156, 154, 154);
 }
