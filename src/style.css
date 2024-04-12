@@ -1,8 +1,57 @@
 h1 {
-  color: rgb(65, 225, 137);
+  color: rgb(65, 132, 225);
 }
 
-.blur-back {
-  background-color: rgba(0, 0, 0, 0.172);
-  backdrop-filter: blur(3px);
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.game-container {
+  padding: 10px;
+  width: 1000px;
+  align-self: center;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 100px;
+}
+
+.cell-button {
+  box-sizing: border-box;
+  border: solid black 1px;
+  background: rgb(206, 239, 255);
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+
+}
+
+.player-board {
+  outline: black;
+  width: 500px;
+  height: 500px;
+  grid-column: 1/2;
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  grid-template-rows: repeat(10, 50px);
+}
+
+.cpu-board {
+  outline: black;
+  width: 500px;
+  height: 500px;
+  grid-column: 2/3;
+  display: grid;
+  grid-template-columns: repeat(10, 50px);
+  grid-template-rows: repeat(10, 50px);
+
+}
+
+button {
+  border: 0;
+  padding: 0;
+
 }
