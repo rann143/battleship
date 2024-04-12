@@ -24,7 +24,7 @@ const display = (function ScreenController() {
                 const a = index0.toString();
                 const b = index.toString();
                 const result = a + b;
-                playerCellBtn.dataset.rowcol = result;
+                playerCellBtn.dataset.rowcol = `a${result}`;
 
                 playerBoardDiv.appendChild(playerCellBtn);
             })
@@ -50,7 +50,7 @@ const display = (function ScreenController() {
                 const a = index0.toString();
                 const b = index.toString();
                 const result = a + b;
-                cpuCellBtn.dataset.rowcol = result;
+                cpuCellBtn.dataset.rowcol = `b${result}`;
 
                 cpuBoardDiv.appendChild(cpuCellBtn);
             })
@@ -76,13 +76,36 @@ const display = (function ScreenController() {
 
         // Add a different background color for each cell that contains a ship 
         shipLocations.forEach((coordinate) => {
-            const cell = document.querySelector(`[data-rowcol='${coordinate[0]}${coordinate[1]}']`);
+            const cell = document.querySelector(`[data-rowcol='a${coordinate[0]}${coordinate[1]}']`);
             cell.classList.add('ship');
         })
 
     }
 
-    console.log(displayPlayerShips());
+    displayPlayerShips();
+
+    const displayCPUShips = () => {
+        const cpuBoard = game.getBoard2().board;
+        const shipLocations = [];
+
+        // Create a new array of filtered coordinates that only contains coordinates occupied by ships
+        for (let i = 0; i < cpuBoard.length; i++) {
+            for (let j = 0; j < cpuBoard.length; j++) {
+                if (cpuBoard[i][j] !== null) {
+                    shipLocations.push([i, j]);
+                }
+            }
+        }
+
+        // Add a different background color for each cell that contains a ship 
+        shipLocations.forEach((coordinate) => {
+            const cell = document.querySelector(`[data-rowcol='b${coordinate[0]}${coordinate[1]}']`);
+            cell.classList.add('ship');
+        })
+
+    }
+
+    displayCPUShips();
 
 
 })();

@@ -14,8 +14,10 @@ function GameController(
         gameBoard1.placeShip([5, 0], 4);
         gameBoard1.placeShip([8, 8], 2);
 
-        gameBoard2.placeShip([3, 1], 1);
-        gameBoard2.placeShip([5, 5], 1);
+        gameBoard2.placeShip([3, 1], 4, false);
+        gameBoard2.placeShip([1, 4], 3);
+        gameBoard2.placeShip([6, 8], 3, false);
+        gameBoard2.placeShip([5, 5], 2);
     }
     setDraftBoard();
     
