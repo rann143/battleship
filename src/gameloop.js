@@ -9,11 +9,13 @@ function GameController(
     
     // Set Up Boards Using predetermined Coordinates (For Now);
     function setDraftBoard() {
-        gameBoard1.placeShip([1, 1], 1);
-        gameBoard1.placeShip([0, 5], 1);
+        gameBoard1.placeShip([0, 1], 3);
+        gameBoard1.placeShip([2, 5], 5, false);
+        gameBoard1.placeShip([5, 0], 4);
+        gameBoard1.placeShip([8, 8], 2);
 
-        gameBoard2.placeShip([1, 1], 1);
-        gameBoard2.placeShip([0, 5], 1);
+        gameBoard2.placeShip([3, 1], 1);
+        gameBoard2.placeShip([5, 5], 1);
     }
     setDraftBoard();
     
