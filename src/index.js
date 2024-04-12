@@ -30,3 +30,23 @@ document.body.appendChild(title);
 // console.log(player.playTurn());
 
 
+const game = GameController();
+
+console.log(game.getActivePlayer());
+console.log(game.getBoardUnderAttack());
+
+console.log(game.playRound(1, 1));
+
+console.log(game.getActivePlayer());
+console.log(game.getBoardUnderAttack());
+
+console.log(game.playRound());
+
+console.log(game.getActivePlayer());
+console.log(game.getBoardUnderAttack());
+
+
+
+
+
+

@@ -32,7 +32,7 @@ class Ship {
 
 class Gameboard {
 
-    constructor(missedAttacks = [], attempted = [], numberOfShips = 5) {
+    constructor(missedAttacks = [], attempted = [], numberOfShips = 2) {
         this.missedAttacks = missedAttacks,
         this.attempted = attempted;
         this.numberOfShips = numberOfShips

@@ -6,18 +6,13 @@ function GameController(
     gameBoard1 = new Gameboard(),
     gameBoard2 = new Gameboard(),
 ) {
+    
     // Set Up Boards Using predetermined Coordinates (For Now);
     gameBoard1.placeShip([1, 1], 3);
     gameBoard1.placeShip([0, 5], 5, false);
-    gameBoard1.placeShip([7, 7], 3);
-    gameBoard1.placeShip([5, 1], 4, false);
-    gameBoard1.placeShip([10, 8], 2);
 
     gameBoard2.placeShip([1, 1], 3);
     gameBoard2.placeShip([0, 5], 5, false);
-    gameBoard2.placeShip([7, 7], 3);
-    gameBoard2.placeShip([5, 1], 4, false);
-    gameBoard2.placeShip([10, 8], 2);
     
     // Active player
     let activePlayer = player1;
