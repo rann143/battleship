@@ -127,7 +127,7 @@ class Gameboard {
 
         if (attackedShip.sunk === true) {
             this.numberOfShips--;
-            return this.areAllShipsSunk();
+            return this.numberOfShips;
         }
         
         return attackedShip;

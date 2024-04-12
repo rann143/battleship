@@ -1,4 +1,5 @@
 import { Ship, Player, Gameboard } from "./classes";
+import GameController from "./gameloop";
 
 const title = document.createElement("h1");
 title.textContent = "Hello There!";
