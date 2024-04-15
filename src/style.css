@@ -81,3 +81,11 @@ button {
 .ship:hover {
   background-color: rgb(156, 154, 154);
 }
+
+.hit{
+ background-color: crimson;
+}
+
+.missed, .missed:hover{
+  background-color: blue;
+}

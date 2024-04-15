@@ -1,7 +1,7 @@
 /* eslint-disable no-plusplus */
 import GameController from "./gameloop";
 
-const display = (function ScreenController() {
+function renderScreen() {
 
     const game = GameController();
     const playerBoardDiv = document.querySelector('.player-board')
@@ -33,8 +33,6 @@ const display = (function ScreenController() {
         });
     }
 
-    createPlayerBoard();
-
     const createCPUBoard = () => {
         const cpuBoard = game.getBoard2();
 
@@ -59,8 +57,6 @@ const display = (function ScreenController() {
         });
     }
 
-    createCPUBoard();
-
     const displayPlayerShips = () => {
         const playerBoard = game.getBoard1().board;
         const shipLocations = [];
@@ -81,8 +77,6 @@ const display = (function ScreenController() {
         })
 
     }
-
-    displayPlayerShips();
 
     const displayCPUShips = () => {
         const cpuBoard = game.getBoard2().board;
@@ -105,9 +99,74 @@ const display = (function ScreenController() {
 
     }
 
+    const showMissOnCPUBoard = () => {
+        const cpuMissedAttacks = game.getBoard2().missedAttacks;
+
+        cpuMissedAttacks.forEach(coordinate => {
+            const cell = document.querySelector(`[data-rowcol='b${coordinate[0]}${coordinate[1]}']`);
+            cell.classList.add('missed');
+        })
+    }
+
+    const showMissOnPlayerBoard = () => {
+        const playerMissedAttacks = game.getBoard1().missedAttacks;
+
+        playerMissedAttacks.forEach(coordinate => {
+            const cell = document.querySelector(`[data-rowcol='a${coordinate[0]}${coordinate[1]}']`);
+            cell.classList.add('missed');
+        })
+    }
+
+    createPlayerBoard();
+    createCPUBoard();
+    displayPlayerShips();
     displayCPUShips();
 
+    const cells = document.querySelectorAll('.cell-button');
 
-})();
+    // Use in async function in ClickHandler so CPU takes time 
+    // before shooting
+    function wait(ms) {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(ms)
+            }, ms )
+        })
+    }  
 
-export default display;
+    function clickHandler(e) {
+        const selectedRow = e.target.dataset.row;
+        const selectedColumn = e.target.dataset.column;
+
+        if (!selectedRow || !selectedColumn) return;
+
+        // Human Player takes shot
+        game.playRound(selectedRow, selectedColumn);
+        showMissOnCPUBoard();
+        // Active Player switches to CPU which takes a shot
+        game.switchPlayer();
+
+        // Wait 1 second before CPU takes shot
+        (async () => {
+            console.log('CPU taking shot');
+            await wait(1000);
+            console.log('Shot taken');
+            game.playRound();
+            showMissOnPlayerBoard();
+            // Switch Active Player back to Human
+            game.switchPlayer();
+        })();
+    }
+    
+    cells.forEach(cell => {
+        cell.addEventListener('click', clickHandler)
+    })
+
+    return {
+        showMissOnCPUBoard
+    }
+
+
+};
+
+export default renderScreen;

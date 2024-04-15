@@ -84,7 +84,7 @@ function GameController(
             return "Game has ended";
         }
 
-        switchPlayer();
+        // switchPlayer();
         switchBoardUnderAttack();
 
     }
