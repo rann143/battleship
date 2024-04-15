@@ -89,8 +89,6 @@ function GameController(
 
     }
 
-
-
     return {
         printNewGame,
         playRound,

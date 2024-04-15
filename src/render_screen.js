@@ -148,9 +148,7 @@ function renderScreen() {
 
         // Wait 1 second before CPU takes shot
         (async () => {
-            console.log('CPU taking shot');
             await wait(1000);
-            console.log('Shot taken');
             game.playRound();
             showMissOnPlayerBoard();
             // Switch Active Player back to Human
