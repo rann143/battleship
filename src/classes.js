@@ -136,7 +136,7 @@ class Gameboard {
             this.numberOfShips--;
             return "sunk";
         }
-        
+        console.log(attackedShip);
         return attackedShip;
     }
 

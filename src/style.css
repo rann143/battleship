@@ -82,7 +82,7 @@ button {
   background-color: rgb(156, 154, 154);
 }
 
-.hit{
+.hit, .hit:hover{
  background-color: crimson;
 }
 

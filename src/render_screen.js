@@ -1,5 +1,7 @@
+/* eslint-disable no-alert */
 /* eslint-disable no-plusplus */
 import GameController from "./gameloop";
+import { Ship, Gameboard, Player } from './classes'
 
 function renderScreen() {
 
@@ -108,6 +110,25 @@ function renderScreen() {
         })
     }
 
+    function showHitOnCPUBoard(x,y) {
+        const cpuBoard = game.getBoard2().board;
+        const cell = document.querySelector(`[data-rowcol='b${x}${y}']`);
+
+        if (cpuBoard[x][y] !== null) {
+            cell.classList.add('hit');
+        }
+        
+    }
+
+    function showHitOnPlayerBoard(x,y) {
+        const playerBoard = game.getBoard1().board;
+        const cell = document.querySelector(`[data-rowcol='a${x}${y}']`);
+
+        if (playerBoard[x][y] !== null) {
+            cell.classList.add('hit');
+        }
+    }
+
     const showMissOnPlayerBoard = () => {
         const playerMissedAttacks = game.getBoard1().missedAttacks;
 
@@ -142,15 +163,39 @@ function renderScreen() {
 
         // Human Player takes shot
         game.playRound(selectedRow, selectedColumn);
+        showHitOnCPUBoard(selectedRow, selectedColumn);
         showMissOnCPUBoard();
+        if (game.hasWon() === true) {
+            game.printNewGame();
+            game.setDraftBoard();
+            createPlayerBoard();
+            createCPUBoard();
+            displayPlayerShips();
+            displayCPUShips();
+            cells.forEach(cell => {
+                cell.classList.remove('hit');
+                cell.classList.remove('missed');
+            })
+            return;
+        }
         // Active Player switches to CPU which takes a shot
         game.switchPlayer();
 
         // Wait 1 second before CPU takes shot
         (async () => {
-            await wait(1000);
-            game.playRound();
+            await wait(200);
+            // When cpu shoots, the coordinates of the shot are returned in playRound()
+            const cpuShot = game.playRound();
+            showHitOnPlayerBoard(cpuShot[0], cpuShot[1]);
             showMissOnPlayerBoard();
+            if (game.hasWon() === true) {
+                alert("LOSER");
+            game.printNewGame();
+            game.setDraftBoard();
+            createPlayerBoard();
+            createCPUBoard();
+            displayPlayerShips();
+        }
             // Switch Active Player back to Human
             game.switchPlayer();
         })();
@@ -159,10 +204,6 @@ function renderScreen() {
     cells.forEach(cell => {
         cell.addEventListener('click', clickHandler)
     })
-
-    return {
-        showMissOnCPUBoard
-    }
 
 
 };

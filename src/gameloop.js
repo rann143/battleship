@@ -51,6 +51,8 @@ function GameController(
         getPlayer2().resetPlayer();
         getBoard1().resetBoard();
         getBoard2().resetBoard();
+        getBoard1().board = getBoard1().buildBoard();
+        getBoard2().board = getBoard2().buildBoard();
         
     }
 
@@ -66,31 +68,37 @@ function GameController(
     function playRound(x, y) {
 
         if (getActivePlayer() === player1) {
-            gameBoard2.receiveAttack(x, y);
+            return gameBoard2.receiveAttack(x, y);
         }
 
         if (getActivePlayer() === player2) {
             const shotCoordinatesArray = player2.takeShotCPU();
             gameBoard1.receiveAttack(shotCoordinatesArray[0], shotCoordinatesArray[1]);
+            console.log(shotCoordinatesArray);
+            // Return the shot coordinates of the CPU's shot. 
+            // These coordinates are used the mark the location on the display if hit
+            // There's probably a better way to go about this but can come back later
+            return shotCoordinatesArray;
         }
 
-        if (hasWon() === true) {
-            console.log(`${getActivePlayer().name} has won!`);
-            console.log(getBoardUnderAttack().ships);
-            // Think about what needs to happen when a game ends
-            // Reset Players & Board
-            printNewGame();
-            setDraftBoard();
-            return "Game has ended";
-        }
+        // if (hasWon() === true) {
+        //     console.log(`${getActivePlayer().name} has won!`);
+        //     console.log(getBoardUnderAttack().ships);
+        //     // Think about what needs to happen when a game ends
+        //     // Reset Players & Board
+        //     printNewGame();
+        //     setDraftBoard();
+        //     return "Game has ended";
+        // }
 
-        // switchPlayer();
+        // switchPlayer(); -> THIS is now happening in ClickHandler() in render_screen.js
         switchBoardUnderAttack();
 
     }
 
     return {
         printNewGame,
+        setDraftBoard,
         playRound,
         switchPlayer,
         getActivePlayer,
@@ -99,7 +107,8 @@ function GameController(
         switchBoardUnderAttack,
         getBoardUnderAttack,
         getBoard1,
-        getBoard2
+        getBoard2,
+        hasWon
     }
 
 }
