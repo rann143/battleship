@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-plusplus */
 import { Ship, Player, Gameboard } from "./classes";
 
