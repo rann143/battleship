@@ -5,7 +5,7 @@ import { Ship, Gameboard, Player } from './classes'
 
 function renderScreen() {
 
-    const game = GameController();
+    let game = GameController();
     const playerBoardDiv = document.querySelector('.player-board')
     const cpuBoardDiv = document.querySelector('.cpu-board');
 
@@ -166,12 +166,8 @@ function renderScreen() {
         showHitOnCPUBoard(selectedRow, selectedColumn);
         showMissOnCPUBoard();
         if (game.hasWon() === true) {
-            game.printNewGame();
-            game.setDraftBoard();
-            createPlayerBoard();
-            createCPUBoard();
-            displayPlayerShips();
-            displayCPUShips();
+            // Reset for a new round by reassigning 'game' to a new instance of GameController
+            game = GameController();
             cells.forEach(cell => {
                 cell.classList.remove('hit');
                 cell.classList.remove('missed');
@@ -183,7 +179,7 @@ function renderScreen() {
 
         // Wait 1 second before CPU takes shot
         (async () => {
-            await wait(200);
+            await wait(500);
             // When cpu shoots, the coordinates of the shot are returned in playRound()
             const cpuShot = game.playRound();
             showHitOnPlayerBoard(cpuShot[0], cpuShot[1]);
