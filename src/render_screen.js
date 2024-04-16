@@ -141,7 +141,7 @@ function renderScreen() {
     createPlayerBoard();
     createCPUBoard();
     displayPlayerShips();
-    displayCPUShips();
+    // displayCPUShips();
 
     const cells = document.querySelectorAll('.cell-button');
 
@@ -166,12 +166,16 @@ function renderScreen() {
         showHitOnCPUBoard(selectedRow, selectedColumn);
         showMissOnCPUBoard();
         if (game.hasWon() === true) {
+            alert("YOU WIN")
             // Reset for a new round by reassigning 'game' to a new instance of GameController
             game = GameController();
             cells.forEach(cell => {
                 cell.classList.remove('hit');
                 cell.classList.remove('missed');
+                cell.classList.remove('ship');
             })
+            displayPlayerShips();
+            // displayCPUShips();
             return;
         }
         // Active Player switches to CPU which takes a shot
@@ -186,19 +190,20 @@ function renderScreen() {
             showMissOnPlayerBoard();
             if (game.hasWon() === true) {
                 alert("LOSER");
-            game.printNewGame();
-            game.setDraftBoard();
-            createPlayerBoard();
-            createCPUBoard();
-            displayPlayerShips();
-        }
+                game = GameController();
+                cells.forEach(cell => {
+                    cell.classList.remove('hit');
+                    cell.classList.remove('missed');
+                })
+                return;
+            }
             // Switch Active Player back to Human
             game.switchPlayer();
         })();
     }
     
     cells.forEach(cell => {
-        cell.addEventListener('click', clickHandler)
+        cell.addEventListener('click', clickHandler);
     })
 
 

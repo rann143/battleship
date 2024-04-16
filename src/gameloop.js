@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 import { Ship, Player, Gameboard } from "./classes";
 
 function GameController(
@@ -6,20 +7,103 @@ function GameController(
     gameBoard1 = new Gameboard("My Board"),
     gameBoard2 = new Gameboard("CPU Board"),
 ) {
+
+
+    function filterAvailablePlacements(array, shipLength, horizontal = true) {
+        const availablePlacements = [];
+        if (horizontal === true) {
+        for (let i = 0; i < array.length; i++) {
+            for (let j = 0; j <= (9 - shipLength + 1); j++) {
+                // Issue where available coordinates will include spots where ships cannot
+                // be placed due to other ships in their way. I.E, if a new ship is a length of 5
+                // and horizontal, it will not be placed if there is an existing ships 3 cells away.
+                // While I account for the existing ships location, available moves should not include
+                // null spaces that are too close given a new ship's length.
+                // This code: ...&& array[i][j + 1] === null && array[i][j + 2] === null
+                // Is meant as a buffer to address this but clearly is not a perfect solution.
+                // Same issue for vertical ships
+                if (array[i][j] === null
+                    && array[i][j + 1] === null
+                    && array[i][j + 2] === null
+                ) {
+                    availablePlacements.push([i, j])
+                }
+                
+            }
+            }
+        }
+        if (horizontal === false) {
+        for (let i = 0; i <= (9 - shipLength + 1); i++) {
+            for (let j = 0; j < array.length; j++) {
+                if (array[i][j] === null
+                    && array[i + 1][j] === null
+                    && array[i + 2][j] === null
+                ) {
+                    availablePlacements.push([i, j])
+                }
+                
+            }
+            }
+        }
+
+        return availablePlacements;
+    }
+
+    function placePlayerShipRandomly(shipLength, horizontal = true) {
+        const shipAvailability = filterAvailablePlacements(gameBoard1.board, shipLength, horizontal)
+        const randomCoord2 = shipAvailability[Math.floor(Math.random() * shipAvailability.length)];
+        gameBoard1.placeShip(randomCoord2, shipLength, horizontal);
+
+        console.log(gameBoard1.board)
+        console.log(gameBoard1.ships)
+
+        return gameBoard1.board;
+    }
+    function placeCPUShipRandomly(shipLength, horizontal = true) {
+        const shipAvailability = filterAvailablePlacements(gameBoard2.board, shipLength, horizontal)
+        const randomCoord = shipAvailability[Math.floor(Math.random() * shipAvailability.length)];
+        gameBoard2.placeShip(randomCoord, shipLength, horizontal);
+
+        console.log(gameBoard2.board)
+        console.log(gameBoard2.ships)
+
+        return gameBoard2.board;
+    }
+
     
     // Set Up Boards Using predetermined Coordinates (For Now);
     function setDraftBoard() {
-        gameBoard1.placeShip([0, 1], 3);
-        gameBoard1.placeShip([2, 5], 5, false);
-        gameBoard1.placeShip([5, 0], 4);
-        gameBoard1.placeShip([8, 8], 2);
+        placePlayerShipRandomly(5, false);
+        placePlayerShipRandomly(4);
+        placePlayerShipRandomly(2);
+        placePlayerShipRandomly(3, false);
 
-        gameBoard2.placeShip([3, 1], 4, false);
-        gameBoard2.placeShip([1, 4], 3);
-        gameBoard2.placeShip([6, 8], 3, false);
-        gameBoard2.placeShip([5, 5], 2);
+
+        placeCPUShipRandomly(5, false);
+        placeCPUShipRandomly(4);
+        placeCPUShipRandomly(2);
+        placeCPUShipRandomly(3, false);
+
+        // Due to issue with filterAvailablePlacements() function, this is a temporary way to 
+        // reset the boards and re-place the ships if there are less than 4 ships on either board
+        if (gameBoard1.ships.length !== 4 || gameBoard2.ships.length !== 4) {
+            gameBoard1 = new Gameboard();
+            gameBoard2 = new Gameboard();
+
+            placePlayerShipRandomly(5, false);
+            placePlayerShipRandomly(4);
+            placePlayerShipRandomly(2);
+            placePlayerShipRandomly(3, false);
+
+
+            placeCPUShipRandomly(5, false);
+            placeCPUShipRandomly(4);
+            placeCPUShipRandomly(2);
+            placeCPUShipRandomly(3, false);
+        }
     }
     setDraftBoard();
+
     
     // Active player
     let activePlayer = player1;
@@ -80,16 +164,6 @@ function GameController(
             // There's probably a better way to go about this but can come back later
             return shotCoordinatesArray;
         }
-
-        // if (hasWon() === true) {
-        //     console.log(`${getActivePlayer().name} has won!`);
-        //     console.log(getBoardUnderAttack().ships);
-        //     // Think about what needs to happen when a game ends
-        //     // Reset Players & Board
-        //     printNewGame();
-        //     setDraftBoard();
-        //     return "Game has ended";
-        // }
 
         // switchPlayer(); -> THIS is now happening in ClickHandler() in render_screen.js
         switchBoardUnderAttack();
