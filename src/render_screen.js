@@ -141,7 +141,7 @@ function renderScreen() {
     createPlayerBoard();
     createCPUBoard();
     displayPlayerShips();
-    // displayCPUShips();
+    displayCPUShips();
 
     const cells = document.querySelectorAll('.cell-button');
 
@@ -175,7 +175,7 @@ function renderScreen() {
                 cell.classList.remove('ship');
             })
             displayPlayerShips();
-            // displayCPUShips();
+            displayCPUShips();
             return;
         }
         // Active Player switches to CPU which takes a shot
